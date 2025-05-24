@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id        String    @id @default(uuid())
+    username  String    @unique @db.VarChar(30)
+    password  String    @db.VarChar(255) // Using VarChar(255) for hashed password storage
+    bookings  Booking[]
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+    @@index([username])
+    @@map("user")
+}
+
+model Booking {
+    id         String   @id @default(uuid())
+    userId     String
+    user       User     @relation(fields: [userId], references: [id])
+    date       DateTime
+    event      String
+    clockStart Json // Now stores { hours: 8, minutes: 0 }
+    clockEnd   Json // Now stores { hours: 10, minutes: 0 }
+    room       String
+    pic        String
+    kapasitas  Int
+    rapat      String
+    catatan    String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    @@map("booking")
+}

@@ -2,9 +2,10 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { prisma } from '$lib/server/prisma';
 import bcrypt from 'bcryptjs';
+import { cors } from '$lib/server/cors';
 
 // POST /api/users - Signup (Create new user)
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = cors(async ({ request }) => {
 	try {
 		const data = await request.json();
 
@@ -51,4 +52,4 @@ export const POST: RequestHandler = async ({ request }) => {
 		console.error('Error creating user:', error);
 		return json({ error: 'Failed to create user' }, { status: 500 });
 	}
-};
+});

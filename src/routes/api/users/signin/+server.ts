@@ -3,9 +3,10 @@ import type { RequestHandler } from './$types';
 import { prisma } from '$lib/server/prisma';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '$lib/server/auth';
+import { cors } from '$lib/server/cors';
 
 // POST /api/users/signin - Signin (Authenticate user)
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = cors(async ({ request }) => {
 	try {
 		const data = await request.json();
 
@@ -43,4 +44,4 @@ export const POST: RequestHandler = async ({ request }) => {
 		console.error('Error signing in:', error);
 		return json({ error: 'Failed to sign in' }, { status: 500 });
 	}
-};
+});

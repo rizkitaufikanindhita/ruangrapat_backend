@@ -2,6 +2,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { prisma } from '$lib/server/prisma';
 import { authMiddleware } from '$lib/server/auth';
+import { cors } from '$lib/server/cors';
 
 // GET /api/bookings - Get all bookings
 export const GET: RequestHandler = async (event) => {
@@ -32,7 +33,7 @@ export const GET: RequestHandler = async (event) => {
 };
 
 // POST /api/bookings - Create a new booking
-export const POST: RequestHandler = async (event) => {
+export const POST: RequestHandler = cors(async (event) => {
 	try {
 		// Apply auth middleware
 		await authMiddleware(event);
@@ -135,7 +136,7 @@ export const POST: RequestHandler = async (event) => {
 		console.error('Error creating booking:', error);
 		return json({ error: 'Failed to create booking' }, { status: 500 });
 	}
-};
+});
 
 // Helper functions
 function isValidTimeObject(time: any): boolean {

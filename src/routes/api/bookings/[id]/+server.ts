@@ -1,6 +1,7 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { prisma } from '$lib/server/prisma';
+import { cors } from '$lib/server/cors';
 
 // Helper functions
 function isValidClockFormat(clock: any): boolean {
@@ -29,7 +30,7 @@ function isTimeBefore(
 }
 
 // GET /api/bookings/[id] - Get a specific booking
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = cors(async ({ params }) => {
 	try {
 		const booking = await prisma.booking.findUnique({
 			where: { id: params.id },
@@ -54,10 +55,10 @@ export const GET: RequestHandler = async ({ params }) => {
 		console.error('Error fetching booking:', error);
 		return json({ error: 'Failed to fetch booking' }, { status: 500 });
 	}
-};
+});
 
 // PUT /api/bookings/[id] - Update a booking
-export const PUT: RequestHandler = async ({ params, request }) => {
+export const PUT: RequestHandler = cors(async ({ params, request }) => {
 	try {
 		const data = await request.json();
 		const bookingId = params.id;
@@ -165,10 +166,10 @@ export const PUT: RequestHandler = async ({ params, request }) => {
 		console.error('Error updating booking:', error);
 		return json({ error: 'Failed to update booking' }, { status: 500 });
 	}
-};
+});
 
 // DELETE /api/bookings/[id] - Delete a booking
-export const DELETE: RequestHandler = async ({ params }) => {
+export const DELETE: RequestHandler = cors(async ({ params }) => {
 	try {
 		const bookingId = params.id;
 
@@ -190,4 +191,4 @@ export const DELETE: RequestHandler = async ({ params }) => {
 		console.error('Error deleting booking:', error);
 		return json({ error: 'Failed to delete booking' }, { status: 500 });
 	}
-};
+});

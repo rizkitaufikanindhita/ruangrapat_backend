@@ -5,7 +5,7 @@ import { authMiddleware } from '$lib/server/auth';
 import { cors } from '$lib/server/cors';
 
 // GET /api/bookings - Get all bookings
-export const GET: RequestHandler = async (event) => {
+export const GET: RequestHandler = cors(async (event) => {
 	try {
 		// Apply auth middleware
 		await authMiddleware(event);
@@ -30,7 +30,7 @@ export const GET: RequestHandler = async (event) => {
 		console.error('Error fetching bookings:', error);
 		return json({ error: 'Failed to fetch bookings' }, { status: 500 });
 	}
-};
+});
 
 // POST /api/bookings - Create a new booking
 export const POST: RequestHandler = cors(async (event) => {

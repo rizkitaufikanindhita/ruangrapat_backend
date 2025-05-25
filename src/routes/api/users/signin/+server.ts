@@ -45,6 +45,7 @@ export const POST: RequestHandler = cors(async ({ request }) => {
 		return json({ error: 'Failed to sign in' }, { status: 500 });
 	}
 });
+
 export const OPTIONS: RequestHandler = cors(async () => {
 	return new Response(null, { status: 204 });
 });

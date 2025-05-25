@@ -160,3 +160,7 @@ function isTimeBefore(
 	const endMinutes = end.hours * 60 + end.minutes;
 	return startMinutes < endMinutes;
 }
+
+export const OPTIONS: RequestHandler = cors(async () => {
+	return new Response(null, { status: 204 });
+});

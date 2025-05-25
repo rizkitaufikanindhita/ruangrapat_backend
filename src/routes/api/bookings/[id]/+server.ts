@@ -192,3 +192,7 @@ export const DELETE: RequestHandler = cors(async ({ params }) => {
 		return json({ error: 'Failed to delete booking' }, { status: 500 });
 	}
 });
+
+export const OPTIONS: RequestHandler = cors(async () => {
+	return new Response(null, { status: 204 });
+});

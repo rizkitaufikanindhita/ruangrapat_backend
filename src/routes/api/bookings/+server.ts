@@ -51,8 +51,7 @@ export const POST: RequestHandler = cors(async (event) => {
 			'room',
 			'pic',
 			'kapasitas',
-			'rapat',
-			'catatan'
+			'rapat'
 		];
 
 		for (const field of requiredFields) {
